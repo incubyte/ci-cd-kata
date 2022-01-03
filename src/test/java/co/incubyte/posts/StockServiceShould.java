@@ -28,13 +28,13 @@ class StockServiceShould {
   }
 
   @Test
-  void mock_return_stock_all_stocks() throws NullPointerException {
+  void invoke_stock_gateway_get_all_stocks() {
     stockService.getStockByTicker("TATAMOTORS");
     verify(stockGateway).getAllStocks();
   }
 
   @Test
-  void return_stock_info_with_given_ticker() throws NullPointerException {
+  void return_stock_info_with_given_ticker() {
     StockService stockService = new StockService(stockGateway);
     Stock stock = stockService.getStockByTicker("TATAMOTORS");
     assertEquals("TATAMOTORS", stock.getTicker());

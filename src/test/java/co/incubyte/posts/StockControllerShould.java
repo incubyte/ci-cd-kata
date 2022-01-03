@@ -18,7 +18,7 @@ class StockControllerShould {
   }
 
   @Test
-  void call_stock_service_get_stock_by_ticker() throws NullPointerException {
+  void invoke_stock_service_get_stock_by_ticker() {
     stockController.getStockByTicker("TATAMOTORS");
     verify(stockService).getStockByTicker("TATAMOTORS");
   }
