@@ -28,6 +28,13 @@ class StockIntegrationTest {
   }
 
   @Test
+  void ticker_search_should_return_stock_info2() {
+    Stock stock = httpClient.toBlocking()
+        .retrieve(GET("/paytm"), Argument.of(Stock.class), Argument.of(Exception.class));
+    assertEquals("paytm", stock.getTicker());
+  }
+
+  @Test
   void status_code_404_for_no_sticker_found() {
     HttpClientResponseException httpClientResponseException =
         assertThrows(

@@ -13,7 +13,7 @@ import java.util.List;
 public class StockGateway {
 
   @Inject
-  @Client("https://61bdb57a2a1dd4001708a0f3.mockapi.io/api/v1")
+  @Client("https://61deab5cfb8dae0017c2e196.mockapi.io/api/v1/")
   private HttpClient httpClient;
 
   public List<Stock> getAllStocks() {
