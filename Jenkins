@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+    stages {
+        stages {
+        stage('Checkout') {
+            steps { //Checking out the repo
+                checkout changelog: true, poll: true, scm: [$class: 'GitSCM', branches: [[name: '*/master']], browser: [$class: 'BitbucketWeb', repoUrl: 'https://web.com/blah'], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'ssh://git@git.giturl.com/test/test.git']]]
+            }
+        }
+        stage('Compile') {
+            steps {
+                gradlew('clean', 'classes')
+            }
+        }
+        stage('Unit Tests') {
+            steps {
+                gradlew('test')
+            }
+            post {
+                always {
+                    junit '**/build/test-results/test/TEST-*.xml'
+                }
+            }
+        }
+        stage('SonarqubeCodeQuality') {
+            environment {
+                SONAR_LOGIN = credentials('SONARCLOUD_TOKEN')
+            }
+            parallel {
+                stage('Integration Tests') {
+                    steps {
+                        gradlew('integrationTest')
+                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/integrationTest/TEST-*.xml'
+                        }
+                    }
+                }
+                stage('CodeAnalysis') {
+                    steps {
+                        gradlew('sonarqube')
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy') {
+            environment {
+                API_KEY = credentials('API_KEY')
+            }
+            steps {
+                unstash 'app'
+                gradlew('deployincubyte')
+            }
+        }
+    }
+    
+}
