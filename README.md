@@ -3,7 +3,7 @@
 ### Application Details
 
 This is a simple Micronaut application that makes requests to a REST API and returns the response.
-The server is available [here](https://61bdb57a2a1dd4001708a0f3.mockapi.io/api/v1/stocks) which serves list of Penny Stocks.
+The server is available [here](https://61deab5cfb8dae0017c2e196.mockapi.io/api/v1/stocks) which serves list of Penny Stocks.
 
 The application is able to get stock information from this API based on a ticker name sent as a query parameter.
 
