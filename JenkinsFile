@@ -1,0 +1,44 @@
+pipeline
+{
+    agent any
+	options
+	{ 
+		timeout(time: 100, unit: 'MINUTES') 
+		skipStagesAfterUnstable()
+	}
+
+	stages
+	{
+		stage('Checkout of Project')
+		{
+			steps()
+    		{
+    			git branch: "main",
+    			url: "https://github.com/incubyte/ci-cd-kata.git"
+			}
+		}
+		stage('Build Stage')
+		{
+			steps()
+			{
+				bat "gradlew build"
+    		}
+    	}
+		stage('Test Stage')
+		{
+			steps()
+			{
+				bat "gradlew test"
+    		}
+		}
+		
+		stage('Deploy Stage')
+		{
+		    steps()
+		    {
+		        echo "Deploying"
+		        //Deployment using Ansible to cloud servers and starting the application
+		    }
+		}
+	}
+}
